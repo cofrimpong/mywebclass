@@ -1,0 +1,32 @@
+{
+  "name": "mywebclass-org",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "build:prod": "ELEVENTY_ENV=production eleventy",
+    "serve-api": "node server/api.js",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint . --ext .js",
+    "lint:css": "stylelint \"**/*.css\"",
+    "format": "prettier --write \"**/*.{js,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,css,md}\""
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@sanity/client": "^3.0.0"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0",
+    "html-minifier-terser": "^7.0.0",
+    "@playwright/test": "^1.40.0",
+    "eslint": "^8.55.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^36.0.0",
+    "prettier": "^3.1.0",
+    "http-server": "^14.1.1"
+  }
+}

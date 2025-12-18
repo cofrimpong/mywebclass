@@ -1,0 +1,42 @@
+---
+layout: base
+---
+
+<article itemscope itemtype="https://schema.org/BlogPosting">
+  <header>
+    <h1 itemprop="headline">{{ title }}</h1>
+    <p>
+      Published on <time datetime="{{ date | dateToISO }}" itemprop="datePublished">{{ date | readableDate }}</time>
+      {% if author %}by <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">{{ author }}</span></span>{% endif %}
+    </p>
+  </header>
+  
+  <div itemprop="articleBody">
+    {{ content | safe }}
+  </div>
+
+  <!-- Schema.org BlogPosting Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ title }}",
+    "description": "{{ description or (content | excerpt) }}",
+    "datePublished": "{{ date | dateToISO }}",
+    "dateModified": "{{ modified or date | dateToISO }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ author or 'MyWebClass.org' }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ site.title }}",
+      "url": "{{ site.url }}"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ site.url }}{{ page.url }}"
+    }
+  }
+  </script>
+</article>

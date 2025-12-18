@@ -1,0 +1,9 @@
+_site/
+node_modules/
+references/
+my-web-class/
+cms/
+*.log
+.lighthouseci/
+playwright-report/
+test-results/

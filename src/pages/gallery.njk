@@ -1,0 +1,111 @@
+---
+title: Design Gallery
+layout: base.njk
+permalink: /gallery/
+description: Browse stunning design submissions from our creative community
+---
+
+<div class="gallery-hero">
+  <h1>Design Gallery</h1>
+  <p>Explore design movements and student submissions</p>
+</div>
+
+<section>
+  <h2 class="section-heading">Design Styles</h2>
+  <div id="stylesContainer" class="card-grid">
+    <p class="loading">Loading design styles…</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-heading">Approved Student Submissions</h2>
+  <div id="submissionsContainer" class="card-grid">
+    <p class="loading">Loading submissions…</p>
+  </div>
+</section>
+
+<script>
+const API_ROOT = (typeof window.API_ROOT !== 'undefined') ? window.API_ROOT : ''
+
+async function loadStyles() {
+  const container = document.getElementById('stylesContainer')
+  try {
+    const r = await fetch(API_ROOT + '/api/styles')
+    if (!r.ok) throw new Error('Failed to load styles')
+    const data = await r.json()
+    const styles = data.styles || []
+    
+    if (!styles.length) {
+      // Show static fallback styles
+      showFallbackStyles(container)
+      return
+    }
+    
+    container.innerHTML = styles.map(s => `
+      <article class="card">
+        <h3><a href="${s.slug ? '/gallery/' + s.slug + '/' : '#'}">${escapeHtml(s.title)}</a></h3>
+        <p>${s.description ? escapeHtml(s.description) : 'Learn about this design movement.'}</p>
+      </article>
+    `).join('')
+  } catch (err) {
+    console.error(err)
+    // Show static fallback styles instead of error
+    showFallbackStyles(container)
+  }
+}
+
+function showFallbackStyles(container) {
+  container.innerHTML = `
+    <article class="card">
+      <h3><a href="/styles/bauhaus/">Bauhaus</a></h3>
+      <p>Form follows function. Clean geometric shapes, primary colors, and rational design that revolutionized modern aesthetics.</p>
+    </article>
+    <article class="card">
+      <h3><a href="/styles/minimalism/">Minimalism</a></h3>
+      <p>Less is more. Essential elements, negative space, and refined simplicity create powerful visual statements.</p>
+    </article>
+    <article class="card">
+      <h3><a href="/styles/neo-futurism/">Neo-Futurism</a></h3>
+      <p>Tomorrow's aesthetic today. Dynamic curves, bold innovation, and visionary design pushing boundaries forward.</p>
+    </article>
+  `
+}
+
+async function loadSubmissions() {
+  const container = document.getElementById('submissionsContainer')
+  try {
+    const r = await fetch(API_ROOT + '/api/approved-submissions')
+    if (!r.ok) throw new Error('Failed to load submissions')
+    const data = await r.json()
+    const items = data.submissions || []
+    
+    if (!items.length) {
+      container.innerHTML = '<p class="loading">No approved submissions yet. Be the first to submit!</p>'
+      return
+    }
+    
+    container.innerHTML = items.map(item => `
+      <article class="submission-card">
+        ${item.screenshot?.asset?.url ? `<img src="${item.screenshot.asset.url}" alt="Screenshot by ${escapeHtml(item.name)}" loading="lazy" />` : ''}
+        <div class="submission-card-body">
+          <h4>${escapeHtml(item.name)}</h4>
+          <p class="meta">Style: ${item.style?.title ? escapeHtml(item.style.title) : 'Unknown'}</p>
+          <p><a href="${item.url}" target="_blank" rel="noopener">View Demo →</a></p>
+        </div>
+      </article>
+    `).join('')
+  } catch (err) {
+    console.error(err)
+    container.innerHTML = '<p class="loading">No submissions yet. Submit your design to get started!</p>'
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div')
+  div.textContent = str
+  return div.innerHTML
+}
+
+loadStyles()
+loadSubmissions()
+</script>

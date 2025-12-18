@@ -1,0 +1,262 @@
+---
+layout: base.njk
+title: Minimalism — Less is More
+description: Explore the essence of minimal design where simplicity, clarity, and purpose converge
+permalink: /styles/minimalism/
+---
+
+<style>
+  .minimal-hero {
+    padding: 8rem 2rem 12rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .minimal-hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    color: #000;
+  }
+  
+  .minimal-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+  
+  .divider {
+    width: 80px;
+    height: 1px;
+    background: #000;
+    margin: 4rem 0;
+  }
+  
+  .principle {
+    margin-bottom: 6rem;
+    padding-top: 3rem;
+    border-top: 1px solid #E8E8E8;
+  }
+  
+  .principle-number {
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 1rem;
+  }
+  
+  .principle h3 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+    color: #000;
+  }
+  
+  .principle p {
+    font-size: 1.125rem;
+    line-height: 2;
+    color: #666;
+    font-weight: 300;
+    max-width: 65ch;
+  }
+  
+  .color-strip {
+    display: flex;
+    height: 300px;
+    margin: 6rem 0;
+  }
+  
+  .color-block {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: flex 0.5s ease;
+  }
+  
+  .color-block:hover {
+    flex: 1.5;
+  }
+  
+  .quote-section {
+    padding: 8rem 2rem;
+    background: #FAFAFA;
+    margin: 6rem 0;
+  }
+  
+  .quote-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .quote-content blockquote {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 200;
+    line-height: 1.5;
+    color: #000;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+  }
+  
+  .quote-content cite {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #999;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  
+  .grid-demo {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1px;
+    height: 400px;
+    background: #000;
+    margin: 6rem 0;
+  }
+  
+  .grid-item {
+    background: #fff;
+    transition: background 0.3s ease;
+  }
+  
+  .grid-item:hover {
+    background: #F5F5F5;
+  }
+  
+  .grid-item:nth-child(2) { grid-column: span 3; background: #000; }
+  .grid-item:nth-child(7) { grid-column: span 5; background: #FAFAFA; }
+  .grid-item:nth-child(12) { grid-column: span 4; background: #F5F5F5; }
+  
+  @media (max-width: 768px) {
+    .color-strip {
+      flex-direction: column;
+      height: auto;
+    }
+    
+    .color-block {
+      min-height: 150px;
+    }
+    
+    .grid-demo {
+      grid-template-columns: repeat(6, 1fr);
+      height: 300px;
+    }
+  }
+</style>
+
+<div class="minimal-hero">
+  <p style="font-size: 0.875rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: #999; margin-bottom: 1rem;">
+    Design Movement 02
+  </p>
+  <h1>Minimalism</h1>
+  <p class="tagline" style="font-size: clamp(1.125rem, 2.5vw, 1.5rem); font-weight: 300; color: #666; max-width: 30ch; line-height: 1.6;">
+    Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.
+  </p>
+</div>
+
+<div class="minimal-section">
+  <div class="divider"></div>
+  
+  <div class="principle">
+    <p class="principle-number">01 — Essential</p>
+    <h3>Simplicity</h3>
+    <p>
+      Strip away the unnecessary. Every element must earn its place. Minimalism isn't about having less—it's about making room for more: more clarity, more focus, more impact. Remove until only the essence remains.
+    </p>
+  </div>
+  
+  <div class="principle">
+    <p class="principle-number">02 — Fundamental</p>
+    <h3>Functionality</h3>
+    <p>
+      Form follows function in its purest expression. Design with purpose. Each decision should serve the user's needs directly, without decoration or distraction. Beauty emerges from utility and honesty.
+    </p>
+  </div>
+  
+  <div class="principle">
+    <p class="principle-number">03 — Intentional</p>
+    <h3>Space</h3>
+    <p>
+      Negative space is not empty—it's active. It provides breathing room, creates hierarchy, and guides attention. In minimalism, what you leave out is as important as what you include. Embrace the void.
+    </p>
+  </div>
+</div>
+
+<div class="color-strip">
+  <div class="color-block" style="background: #FFFFFF; color: #000;">
+    White
+  </div>
+  <div class="color-block" style="background: #F5F5F5; color: #666;">
+    Gray 100
+  </div>
+  <div class="color-block" style="background: #CCCCCC; color: #000;">
+    Gray 300
+  </div>
+  <div class="color-block" style="background: #666666; color: #fff;">
+    Gray 600
+  </div>
+  <div class="color-block" style="background: #1A1A1A; color: #fff;">
+    Black
+  </div>
+</div>
+
+<div class="quote-section">
+  <div class="quote-content">
+    <blockquote>
+      "Less is more."
+    </blockquote>
+    <cite>Ludwig Mies van der Rohe</cite>
+  </div>
+</div>
+
+<div class="minimal-section">
+  <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; margin-bottom: 3rem; letter-spacing: -0.02em;">
+    The Grid
+  </h2>
+  <p style="font-size: 1.125rem; line-height: 2; color: #666; font-weight: 300; max-width: 65ch; margin-bottom: 4rem;">
+    Structure creates freedom. The grid provides order, rhythm, and visual harmony. It's the invisible foundation that makes complexity feel simple.
+  </p>
+  
+  <div class="grid-demo">
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+  </div>
+</div>
+
+<div class="minimal-section">
+  <div class="divider"></div>
+  
+  <div style="padding: 4rem 0; text-align: center;">
+    <p style="font-size: 0.875rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: #999; margin-bottom: 1rem;">
+      Core Philosophy
+    </p>
+    <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 300; margin-bottom: 2rem; letter-spacing: -0.02em; line-height: 1.4; max-width: 40ch; margin-left: auto; margin-right: auto;">
+      Minimalism demands discipline. It requires that we question every choice, justify every element, and respect the space between.
+    </h2>
+    <p style="font-size: 1rem; color: #666; font-weight: 300;">
+      The restraint is the point. The clarity is the goal.
+    </p>
+  </div>
+</div>

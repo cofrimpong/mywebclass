@@ -1,0 +1,13 @@
+---
+permalink: /robots.txt
+eleventyExcludeFromCollections: true
+---
+# Allow all search engines
+User-agent: *
+Allow: /
+
+# Disallow admin pages if any
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: {{ site.url }}/sitemap.xml

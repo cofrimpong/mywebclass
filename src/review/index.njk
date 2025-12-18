@@ -1,0 +1,211 @@
+---
+title: Review Submissions
+layout: base.njk
+permalink: "/review/index.html"
+description: Review and moderate community design submissions
+---
+
+<style>
+.review-hero {
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  color: #f5f5f5;
+  text-align: center;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid #00d9ff;
+}
+.review-hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  color: #00d9ff;
+  text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+.review-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+.submission {
+  background: #1a1a1a;
+  border: 2px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.submission::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  opacity: 0;
+  transform: translate(50px, -50px) rotate(45deg);
+  transition: all 0.4s ease;
+}
+.submission:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  border-color: #667eea;
+}
+.submission:hover::before {
+  opacity: 0.08;
+  transform: translate(0, 0) rotate(45deg);
+}
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.actions button {
+  padding: 0.75rem 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+.approve {
+  background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+  color: #1a202c;
+}
+.approve:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(132, 250, 176, 0.4);
+}
+.reject {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+.reject:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(245, 87, 108, 0.4);
+}
+</style>
+
+<div class="review-hero">
+  <p style="text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.75rem; font-weight: bold; opacity: 0.9; margin-bottom: 1rem;">
+    04 — Moderation
+  </p>
+  <h1>Review Submissions</h1>
+  <p style="font-size: 1.125rem; max-width: 600px; margin: 0 auto; opacity: 0.95;">
+    Review pending design submissions and approve them for the gallery
+  </p>
+</div>
+
+<div class="review-container">
+  <div id="list">
+    <p style="text-align: center; color: #667eea; font-weight: 600;">Loading submissions…</p>
+  </div>
+</div>
+
+<template id="itemTpl">
+  <article class="submission" data-id="" style="position: relative; z-index: 1;">
+    <h2 class="name" style="font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem; color: #1a202c;"></h2>
+    <div style="display: grid; gap: 0.75rem; margin-bottom: 1rem;">
+      <p style="color: #4a5568;"><strong style="color: #667eea; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;">Email:</strong> <a class="email" href="mailto:" style="color: #667eea; text-decoration: none;"></a></p>
+      <p style="color: #4a5568;"><strong style="color: #667eea; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;">Style:</strong> <span class="style"></span></p>
+      <p style="color: #4a5568;"><strong style="color: #667eea; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;">Description:</strong> <span class="description"></span></p>
+      <p><a class="url" target="_blank" rel="noopener" style="color: #667eea; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">Visit URL →</a></p>
+    </div>
+    <div class="screenshotWrap" style="margin: 1.5rem 0; border-radius: 8px; overflow: hidden; border: 2px solid #e2e8f0;">
+      <img class="screenshot" alt="Submission screenshot" style="width: 100%; height: auto; display: block;"/>
+    </div>
+    <div class="actions">
+      <button class="approve">✓ Approve</button>
+      <button class="reject">✕ Reject</button>
+    </div>
+  </article>
+</template>
+
+<div id="msg" role="status" aria-live="polite"></div>
+
+<script>
+const API_ROOT = (typeof window.API_ROOT !== 'undefined') ? window.API_ROOT : ''
+const list = document.getElementById('list')
+const tpl = document.getElementById('itemTpl')
+const msg = document.getElementById('msg')
+
+function showMsg(text, isError=false){
+  msg.textContent = text
+  msg.style.color = isError ? 'crimson' : 'green'
+}
+
+async function loadSubmissions(){
+  try{
+    const r = await fetch(API_ROOT + '/api/reviews')
+    if(!r.ok) throw new Error('Failed to load submissions')
+    const data = await r.json()
+    renderList(data.submissions || [])
+  }catch(err){
+    console.error(err)
+    list.innerHTML = '<p>Error loading submissions.</p>'
+  }
+}
+
+function renderList(items){
+  if(!items.length){
+    list.innerHTML = '<p>No pending submissions.</p>'
+    return
+  }
+  list.innerHTML = ''
+  items.forEach(it => {
+    const node = tpl.content.cloneNode(true)
+    const article = node.querySelector('article')
+    article.dataset.id = it._id
+    article.querySelector('.name').textContent = it.name
+    const emailLink = article.querySelector('.email')
+    emailLink.href = 'mailto:' + it.email
+    emailLink.textContent = it.email
+    article.querySelector('.style').textContent = it.style?.title || '—'
+    article.querySelector('.description').textContent = it.description
+    const urlLink = article.querySelector('.url')
+    urlLink.href = it.url
+    urlLink.textContent = it.url
+    const img = article.querySelector('.screenshot')
+    img.src = it.screenshot?.asset?.url || ''
+    img.alt = `Screenshot for submission by ${it.name}`
+
+    const approveBtn = article.querySelector('.approve')
+    const rejectBtn = article.querySelector('.reject')
+
+    approveBtn.addEventListener('click', () => handleAction(it._id, 'approve', article))
+    rejectBtn.addEventListener('click', () => handleAction(it._id, 'reject', article))
+
+    list.appendChild(node)
+  })
+}
+
+async function handleAction(id, action, articleEl){
+  const endpoint = action === 'approve' ? '/api/approve' : '/api/reject'
+  showMsg(`${action}ing...`)
+  try{
+    const r = await fetch(API_ROOT + endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })
+    })
+    const json = await r.json()
+    if(!r.ok || json.error) throw new Error(json.error || 'Action failed')
+    showMsg(`${action.charAt(0).toUpperCase() + action.slice(1)}ed successfully`)
+    // remove the article from the list
+    articleEl.remove()
+    // If list empty, show placeholder
+    if(!list.querySelector('article')) list.innerHTML = '<p>No pending submissions.</p>'
+  }catch(err){
+    console.error(err)
+    showMsg('Error: ' + (err.message || 'Action failed'), true)
+  }
+}
+
+loadSubmissions()
+</script>

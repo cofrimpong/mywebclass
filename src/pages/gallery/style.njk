@@ -1,0 +1,297 @@
+---
+pagination:
+  data: styles
+  size: 1
+  alias: style
+permalink: "/gallery/{{ style.slug }}/"
+layout: base.njk
+---
+
+<style>
+.exhibit-hero {
+  border-bottom: 4px solid #000;
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+}
+.exhibit-hero h1 {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+  line-height: 1.1;
+}
+.exhibit-hero .meta {
+  font-size: 1.125rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.exhibit-section {
+  margin: 4rem 0;
+}
+.exhibit-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  border-left: 6px solid #000;
+  padding-left: 1rem;
+}
+.exhibit-section p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  max-width: 65ch;
+  margin-bottom: 1rem;
+}
+
+.color-palette {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+.color-swatch {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.typography-display {
+  background: #f5f5f5;
+  border: 2px solid #000;
+  padding: 2rem;
+  margin: 1.5rem 0;
+  font-size: 1.125rem;
+}
+
+.demo-frame {
+  width: 100%;
+  height: 600px;
+  border: 3px solid #000;
+  margin: 2rem 0;
+}
+
+.cta-button {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+}
+
+.submissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.submission-card {
+  background: #fff;
+  border: 2px solid #000;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.submission-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.1);
+}
+.submission-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 2px solid #000;
+}
+.submission-card-body {
+  padding: 1.25rem;
+}
+.submission-card h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+.submission-card p {
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+.submission-card a {
+  color: #000;
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.sample-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.sample-gallery img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border: 2px solid #000;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.25rem;
+}
+.error { color: crimson; }
+</style>
+
+<div id="content">
+  <p class="loading">Loading style details…</p>
+</div>
+
+<script>
+const API_ROOT = (typeof window.API_ROOT !== 'undefined') ? window.API_ROOT : ''
+const SLUG = '{{ style.slug }}'
+
+async function loadStyleDetail() {
+  const container = document.getElementById('content')
+  
+  try {
+    // Fetch the style details and approved submissions for this style
+    const [styleRes, submissionsRes] = await Promise.all([
+      fetch(API_ROOT + '/api/style-detail?slug=' + encodeURIComponent(SLUG)),
+      fetch(API_ROOT + '/api/style-submissions?slug=' + encodeURIComponent(SLUG))
+    ])
+    
+    if (!styleRes.ok) throw new Error('Failed to load style details')
+    
+    const styleData = await styleRes.json()
+    const style = styleData.style
+    
+    if (!style) {
+      container.innerHTML = '<p class="error">Style not found.</p>'
+      return
+    }
+    
+    const submissionsData = submissionsRes.ok ? await submissionsRes.json() : { submissions: [] }
+    const submissions = submissionsData.submissions || []
+    
+    // Build the page
+    let html = `
+      <div class="exhibit-hero">
+        <p class="meta">Design Movement</p>
+        <h1>${escapeHtml(style.title)}</h1>
+      </div>
+    `
+    
+    // Historical Background
+    if (style.historicalBackground) {
+      html += `
+        <section class="exhibit-section">
+          <h2>Historical Background</h2>
+          <p>${escapeHtml(style.historicalBackground)}</p>
+        </section>
+      `
+    }
+    
+    // Color Palette
+    if (style.colorPalette && style.colorPalette.length) {
+      html += `
+        <section class="exhibit-section">
+          <h2>Color Palette</h2>
+          <div class="color-palette">
+            ${style.colorPalette.map(color => `
+              <div class="color-swatch" style="background-color: ${escapeHtml(color)}">
+                <span>${escapeHtml(color)}</span>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `
+    }
+    
+    // Typography
+    if (style.typography) {
+      html += `
+        <section class="exhibit-section">
+          <h2>Typography</h2>
+          <div class="typography-display">
+            ${escapeHtml(style.typography)}
+          </div>
+        </section>
+      `
+    }
+    
+    // Sample Images
+    if (style.sampleImages && style.sampleImages.length) {
+      html += `
+        <section class="exhibit-section">
+          <h2>Visual Examples</h2>
+          <div class="sample-gallery">
+            ${style.sampleImages.map((img, idx) => `
+              <img src="${img.asset?.url || ''}" alt="Sample ${idx + 1}" loading="lazy" />
+            `).join('')}
+          </div>
+        </section>
+      `
+    }
+    
+    // Student Submissions
+    html += `
+      <section class="exhibit-section">
+        <h2>Student Submissions</h2>
+    `
+    
+    if (submissions.length) {
+      html += `<div class="submissions-grid">`
+      submissions.forEach(item => {
+        html += `
+          <article class="submission-card">
+            ${item.screenshot?.asset?.url ? `<img src="${item.screenshot.asset.url}" alt="Submission by ${escapeHtml(item.name)}" loading="lazy" />` : ''}
+            <div class="submission-card-body">
+              <h4>${escapeHtml(item.name)}</h4>
+              <p>${item.description ? escapeHtml(item.description) : ''}</p>
+              <a href="${item.url}" target="_blank" rel="noopener">View Demo →</a>
+            </div>
+          </article>
+        `
+      })
+      html += `</div>`
+    } else {
+      html += `<p>No approved submissions yet for this style.</p>`
+    }
+    
+    html += `</section>`
+    
+    container.innerHTML = html
+    document.title = `${style.title} | ${document.title.split('|')[1] || 'MyWebClass.org'}`
+    
+  } catch (err) {
+    console.error(err)
+    container.innerHTML = '<p class="error">Error loading style details.</p>'
+  }
+}
+
+function escapeHtml(str) {
+  if (!str) return ''
+  const div = document.createElement('div')
+  div.textContent = str
+  return div.innerHTML
+}
+
+loadStyleDetail()
+</script>

@@ -1,0 +1,271 @@
+---
+layout: base.njk
+title: Bauhaus — Form Follows Function
+description: Explore the revolutionary Bauhaus design movement that united art, craft, and technology
+permalink: /styles/bauhaus/
+---
+
+<style>
+  .bauhaus-hero {
+    background: #000;
+    color: #fff;
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .bauhaus-hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -5%;
+    width: 400px;
+    height: 400px;
+    background: #E1000F;
+    border-radius: 50%;
+    opacity: 0.9;
+  }
+  
+  .bauhaus-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    left: 5%;
+    width: 350px;
+    height: 350px;
+    background: #FFD500;
+    transform: rotate(45deg);
+    opacity: 0.9;
+  }
+  
+  .bauhaus-hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .bauhaus-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+  
+  .principle-card {
+    background: white;
+    border: 4px solid #000;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .principle-card::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: 12px;
+    bottom: 12px;
+    border: 4px solid #000;
+    z-index: -1;
+  }
+  
+  .principle-card:hover {
+    transform: translate(-5px, -5px);
+  }
+  
+  .principle-card:nth-child(1)::before { background: #E1000F; }
+  .principle-card:nth-child(2)::before { background: #0057B8; }
+  .principle-card:nth-child(3)::before { background: #FFD500; }
+  
+  .color-palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  
+  .color-swatch {
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    letter-spacing: 0.15em;
+    border: 4px solid #000;
+    transition: transform 0.3s ease;
+  }
+  
+  .color-swatch:hover {
+    transform: scale(1.05);
+  }
+  
+  .geometric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+  
+  .geometric-shape {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.5rem;
+    border: 4px solid #000;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .geometric-shape:hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+  
+  .manifesto {
+    background: #fff;
+    border: 8px solid #000;
+    padding: 3rem;
+    margin: 4rem 0;
+    position: relative;
+  }
+  
+  .manifesto::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 100px;
+    height: 100px;
+    background: #E1000F;
+    z-index: -1;
+  }
+</style>
+
+<div class="bauhaus-hero">
+  <div class="bauhaus-hero-content">
+    <p style="text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.875rem; font-weight: bold; color: #FFD500; margin-bottom: 1rem;">
+      Design Movement 01
+    </p>
+    <h1 style="font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; text-transform: uppercase; letter-spacing: 0.02em; line-height: 0.9; margin-bottom: 1.5rem;">
+      BAUHAUS
+    </h1>
+    <p style="font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #FFD500;">
+      Form Follows Function
+    </p>
+    <p style="font-size: 1.125rem; max-width: 700px; margin-top: 2rem; line-height: 1.7; opacity: 0.9;">
+      Founded in 1919, the Bauhaus school revolutionized modern design by merging art, craft, and technology into a unified vision of functional beauty.
+    </p>
+  </div>
+</div>
+
+<div class="bauhaus-section">
+  <div style="border-left: 8px solid #000; padding-left: 2rem; margin-bottom: 3rem;">
+    <p style="text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.75rem; font-weight: bold; margin-bottom: 0.5rem;">
+      Core Philosophy
+    </p>
+    <h2 style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.1;">
+      The Principles
+    </h2>
+  </div>
+  
+  <div class="principle-card">
+    <h3 style="font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.05em;">
+      01 — Function First
+    </h3>
+    <p style="font-size: 1.125rem; line-height: 1.8; color: #333;">
+      Every element serves a purpose. Design should be rational, practical, and eliminate unnecessary ornamentation. The beauty emerges from the perfect marriage of form and function.
+    </p>
+  </div>
+  
+  <div class="principle-card">
+    <h3 style="font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.05em;">
+      02 — Geometric Simplicity
+    </h3>
+    <p style="font-size: 1.125rem; line-height: 1.8; color: #333;">
+      Pure geometric shapes—circles, squares, triangles—form the foundation. Clean lines, right angles, and balanced compositions create visual harmony through mathematical precision.
+    </p>
+  </div>
+  
+  <div class="principle-card">
+    <h3 style="font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.05em;">
+      03 — Unity of Arts
+    </h3>
+    <p style="font-size: 1.125rem; line-height: 1.8; color: #333;">
+      Breaking down barriers between fine arts and applied arts. Architecture, painting, sculpture, and crafts work together in a total work of art—Gesamtkunstwerk.
+    </p>
+  </div>
+</div>
+
+<div class="bauhaus-section" style="background: #F5F5F0; padding: 5rem 2rem;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; text-transform: uppercase; margin-bottom: 2rem; letter-spacing: 0.05em;">
+      The Primary Colors
+    </h2>
+    
+    <div class="color-palette">
+      <div class="color-swatch" style="background: #E1000F; color: #fff;">
+        RED
+      </div>
+      <div class="color-swatch" style="background: #0057B8; color: #fff;">
+        BLUE
+      </div>
+      <div class="color-swatch" style="background: #FFD500; color: #000;">
+        YELLOW
+      </div>
+      <div class="color-swatch" style="background: #000; color: #fff;">
+        BLACK
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bauhaus-section">
+  <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; text-transform: uppercase; margin-bottom: 2rem; letter-spacing: 0.05em;">
+    Geometric Elements
+  </h2>
+  
+  <div class="geometric-grid">
+    <div class="geometric-shape" style="background: #E1000F; color: #fff;">□</div>
+    <div class="geometric-shape" style="background: #0057B8; color: #fff;">○</div>
+    <div class="geometric-shape" style="background: #FFD500; color: #000;">△</div>
+    <div class="geometric-shape" style="background: #000; color: #fff;">▬</div>
+    <div class="geometric-shape" style="background: #fff; color: #000; border: 4px solid #E1000F;">□</div>
+    <div class="geometric-shape" style="background: #fff; color: #000; border: 4px solid #0057B8;">○</div>
+    <div class="geometric-shape" style="background: #fff; color: #000; border: 4px solid #FFD500;">△</div>
+    <div class="geometric-shape" style="background: #E1000F; color: #fff;">▬</div>
+  </div>
+</div>
+
+<div class="bauhaus-section">
+  <div class="manifesto">
+    <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; text-transform: uppercase; margin-bottom: 2rem; letter-spacing: 0.05em;">
+      The Manifesto
+    </h2>
+    <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 1.5rem; color: #222;">
+      "The ultimate aim of all creative activity is a building! The decoration of buildings was once the noblest function of fine arts, and fine arts were indispensable to great architecture."
+    </p>
+    <p style="font-size: 1.125rem; line-height: 1.7; color: #444;">
+      <strong>Walter Gropius, 1919</strong> — The Bauhaus Proclamation established a new vision: to reunite all the arts under architecture's umbrella and create a new guild of craftsmen without class distinctions.
+    </p>
+  </div>
+</div>
+
+<div class="bauhaus-section" style="background: #000; color: #fff; padding: 4rem 2rem; text-align: center;">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <p style="font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: #FFD500; margin-bottom: 1rem;">
+      Historical Impact
+    </p>
+    <p style="font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.2; margin-bottom: 2rem;">
+      1919 — 1933
+    </p>
+    <p style="font-size: 1.125rem; line-height: 1.7; opacity: 0.9;">
+      Though the school existed for only 14 years, its influence shaped modernist architecture and design for the entire 20th century and beyond.
+    </p>
+  </div>
+</div>
